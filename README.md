@@ -1,3 +1,7 @@
+# Easy-Resume
+
+简历小程序是一款轻量化线上简历制作工具，无需下载 APP，微信内即可快速创建、编辑个人简历。数据本地缓存，不用担心信息丢失。
+
 Magic Resume · 微信小程序版
 Copyright (c) 2026
 衍生自 Magic Resume (https://github.com/JOYCEQL/magic-resume)
