@@ -1,0 +1,110 @@
+<view class="page">
+  <navbar show-back="{{true}}" title="AI 设置" />
+
+  <view class="navbar-lg" style="padding-top:6rpx">
+    <view class="eyebrow">数据直连厂商 · 不经第三方</view>
+    <view class="t-large-title">AI 服务商</view>
+  </view>
+
+  <view class="ai-body">
+
+    <!-- 当前状态 -->
+    <view class="group">
+      <view class="card st-card {{testOk ? 'ok' : ''}}">
+        <view class="st-dot" style="background:{{testOk ? '#34C759' : '#C7C7CC'}}"></view>
+        <view class="st-body">
+          <view class="st-title">{{providerName}}<block wx:if="{{model}}"> · {{model}}</block></view>
+          <view class="st-sub">{{testOk ? '连接正常' : (apiKey ? '已配置 Key，尚未测试连接' : '尚未配置 API Key')}}</view>
+        </view>
+        <view class="btn btn-tint btn-sm" bindtap="testConnection" wx:if="{{apiKey}}">测试</view>
+      </view>
+      <view class="group-foot">Key 只保存在这台手机上，请求由小程序直接发往厂商，不经过任何中间服务器。</view>
+    </view>
+
+    <!-- 选择厂商 -->
+    <view class="group">
+      <view class="group-title">服务商</view>
+      <scroll-view scroll-x enhanced show-scrollbar="{{false}}" class="pv-scroll">
+        <view class="pv-row">
+          <view class="pv-chip {{provider === item.key ? 'on' : ''}}" wx:for="{{providers}}" wx:for-item="p" wx:key="key"
+            data-k="{{p.key}}" bindtap="pickProvider">{{p.name}}</view>
+        </view>
+      </scroll-view>
+      <view class="tips-card">
+        <text class="tips-tx">{{tips}}</text>
+      </view>
+    </view>
+
+    <!-- 密钥与地址 -->
+    <view class="group">
+      <view class="group-title">接入信息</view>
+      <view class="card">
+        <view class="field">
+          <view class="field-label">API Key</view>
+          <input class="field-input" password="{{!keyShown}}" value="{{apiKey}}" type="text"
+            placeholder="sk-..." placeholder-class="field-ph" bindinput="onKeyInput" />
+          <view class="eye" bindtap="toggleKey">{{keyShown ? '隐藏' : '显示'}}</view>
+        </view>
+        <view class="field">
+          <view class="field-label">接口地址</view>
+          <input class="field-input" value="{{baseUrl}}" placeholder="https://…" placeholder-class="field-ph"
+            bindinput="onBaseInput" />
+          <view class="eye" bindtap="fetchModels">拉模型</view>
+        </view>
+        <view class="field">
+          <view class="field-label">模型</view>
+          <input class="field-input" value="{{model}}" placeholder="模型名" placeholder-class="field-ph"
+            bindinput="onModelInput" />
+        </view>
+      </view>
+    </view>
+
+    <!-- 连接结果 -->
+    <view class="group" wx:if="{{testResult}}">
+      <view class="card" style="padding:24rpx 28rpx">
+        <view class="res-tx" style="color:{{testOk ? '#248A3D' : '#D5322C'}}">
+          {{testOk ? '✓ ' : '! '}}{{testResult}}
+        </view>
+      </view>
+      <view class="group-foot" wx:if="{{!testOk}}">若提示域名不合法，请到「微信公众平台 → 开发管理 → 服务器域名」把厂商域名加入 request 合法域名，或在开发者工具勾选「不校验合法域名」。</view>
+    </view>
+
+    <!-- 操作 -->
+    <view class="group">
+      <view class="btn btn-primary" bindtap="save">保存配置</view>
+      <view class="btn btn-gray" style="margin-top:20rpx" bindtap="clear">清除配置</view>
+    </view>
+
+    <view class="group">
+      <view class="group-title">支持的域名</view>
+      <view class="card">
+        <view class="dom" wx:for="{{domains}}" wx:for-item="d" wx:key="key">
+          <text class="dom-n">{{d.name}}</text>
+          <text class="dom-d">{{d.domain}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="safe-bottom"></view>
+  </view>
+
+  <!-- 模型选择弹层 -->
+  <view class="mask {{modelPicker ? 'show' : ''}}" bindtap="closePicker" wx:if="{{modelPicker}}"></view>
+  <view class="sheet {{modelPicker ? 'show' : ''}}">
+    <view class="sheet-grab"></view>
+    <view class="sheet-head">
+      <view class="link-btn" bindtap="closePicker">取消</view>
+      <view class="t-headline">选择模型</view>
+      <view class="link-btn w-semi" bindtap="closePicker">完成</view>
+    </view>
+    <scroll-view scroll-y class="sheet-body" enhanced show-scrollbar="{{false}}">
+      <view class="card">
+        <view class="mp-item" wx:for="{{modelOptions}}" wx:for-item="m" wx:key="*this" data-m="{{m}}" bindtap="pickModel">
+          <view class="mp-n">{{m}}</view>
+          <view class="mp-check" wx:if="{{model === m}}">✓</view>
+        </view>
+      </view>
+      <view style="height:40rpx"></view>
+    </scroll-view>
+  </view>
+</view>

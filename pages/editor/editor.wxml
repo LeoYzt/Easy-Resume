@@ -1,0 +1,172 @@
+<view class="page">
+  <navbar show-back="{{true}}" title="编辑简历" />
+
+  <!-- 自定义大标题导航 -->
+  <view class="ed-head">
+    <view class="navbar-lg" style="padding-top:6rpx; padding-bottom:0">
+      <view class="eyebrow">正在编辑 · {{r.name}}</view>
+      <view class="t-large-title">简历内容</view>
+    </view>
+    <view class="comp-bar">
+      <view class="comp-track"><view class="comp-fill" style="width:{{comp}}%"></view></view>
+      <view class="comp-tx">{{comp}}%</view>
+    </view>
+  </view>
+
+  <view class="ed-body">
+
+    <!-- 基本信息 -->
+    <view class="group">
+      <view class="group-title">你本人</view>
+      <view class="card">
+        <view class="row">
+          <button class="ava-btn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar" hover-class="ava-hover">
+            <image class="ava-img" wx:if="{{avatar}}" src="{{avatar}}" mode="aspectFill" />
+            <view class="ava-ph" wx:else><view class="ava-plus">+</view></view>
+          </button>
+          <view class="row-body" style="margin-left:24rpx">
+            <view class="row-title">{{basicText}}</view>
+            <view class="row-sub">{{contactText}}</view>
+          </view>
+        </view>
+        <view class="row" bindtap="openBasic">
+          <view class="row-icon" style="background:#007AFF">资料</view>
+          <view class="row-body">
+            <view class="row-title">基本信息</view>
+            <view class="row-sub">姓名 / 意向 / 状态 / 手机 / 邮箱 / 所在地 / 生日</view>
+          </view>
+          <view class="chev"></view>
+        </view>
+        <view class="row" bindtap="openSummary">
+          <view class="row-icon" style="background:#AF52DE">简</view>
+          <view class="row-body">
+            <view class="row-title">个人简介</view>
+            <view class="row-sub">
+              {{summary ? summary : '3 句话讲清你是谁、强在哪'}}
+            </view>
+          </view>
+          <view class="chev"></view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 时间线体检 -->
+    <view class="group" wx:if="{{issues.length}}">
+      <view class="group-title">⚠️ 时间线体检 · {{issues.length}} 处待处理</view>
+      <view class="card">
+        <view class="issue" wx:for="{{issues}}" wx:for-item="is" wx:key="index">
+          <view class="issue-dot" style="background:{{is.level === 'error' ? '#FF3B30' : '#FF9500'}}"></view>
+          <view class="issue-tx">{{is.text}}</view>
+        </view>
+      </view>
+      <view class="group-foot">机筛和 HR 都会读时间线：倒序排列、没有莫名空档，通过率更高。</view>
+    </view>
+
+    <!-- 各模块 -->
+    <view class="group" wx:for="{{modules}}" wx:for-item="mod" wx:key="key">
+      <view class="group-title">{{mod.glyph}} {{mod.title}}</view>
+      <view class="card">
+        <view class="mod-item" wx:for="{{mod.items}}" wx:for-item="it" wx:key="id">
+          <view class="mod-main" data-key="{{mod.key}}" data-id="{{it.id}}" bindtap="openModule">
+            <view class="mod-title-row">
+              <text class="mod-label {{it.hidden ? 'dim' : ''}}">{{it.label}}</text>
+              <text class="chip chip-red" wx:if="{{it.hidden}}" style="margin:0 0 0 12rpx">已隐藏</text>
+            </view>
+            <view class="mod-sub" wx:if="{{it.sub}}">{{it.sub}}</view>
+            <view class="mod-sub" wx:if="{{it.count}}">{{it.count}} 条描述</view>
+          </view>
+          <view class="mod-ops">
+            <view class="op" data-key="{{mod.key}}" data-id="{{it.id}}" data-dir="-1" bindtap="move">↑</view>
+            <view class="op" data-key="{{mod.key}}" data-id="{{it.id}}" data-dir="1" bindtap="move">↓</view>
+            <view class="op danger" data-key="{{mod.key}}" data-id="{{it.id}}" bindtap="remove">×</view>
+          </view>
+        </view>
+
+        <view class="row add-row" data-key="{{mod.key}}" bindtap="addItem">
+          <view class="add-plus">+</view>
+          <view class="row-title c-blue">添加{{mod.title}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 工具 -->
+    <view class="group">
+      <view class="group-title">智能整理</view>
+      <view class="card">
+        <view class="row" bindtap="smartSort">
+          <view class="row-icon" style="background:#34C759">⇅</view>
+          <view class="row-body">
+            <view class="row-title">一键按时间倒序</view>
+            <view class="row-sub">把最近的经历放到最前面</view>
+          </view>
+          <view class="chev"></view>
+        </view>
+        <view class="row" bindtap="goPreview">
+          <view class="row-icon" style="background:#FF9500">◲</view>
+          <view class="row-body">
+            <view class="row-title">去预览 / 导出</view>
+            <view class="row-sub">看看排出来是什么样</view>
+          </view>
+          <view class="chev"></view>
+        </view>
+      </view>
+      <view class="group-foot">所有内容只保存在本机，不会上传任何服务器。</view>
+    </view>
+
+    <view class="safe-bottom"></view>
+  </view>
+
+  <!-- 编辑弹层 -->
+  <view class="mask {{sheet.open ? 'show' : ''}}" bindtap="closeSheet" wx:if="{{sheet.open}}"></view>
+  <view class="sheet {{sheet.open ? 'show' : ''}}">
+    <view class="sheet-grab"></view>
+    <view class="sheet-head">
+      <view class="link-btn" bindtap="closeSheet">取消</view>
+      <view class="t-headline">{{sheet.title}}</view>
+      <view class="link-btn w-semi" bindtap="save">存储</view>
+    </view>
+
+    <scroll-view scroll-y class="sheet-body" enhanced show-scrollbar="{{false}}">
+      <view class="card" wx:if="{{rows.length}}">
+        <view class="field" wx:for="{{rows}}" wx:for-item="f" wx:key="k">
+          <view class="field-label">{{f.label}}</view>
+          <input
+            class="field-input" type="{{f.type}}"
+            value="{{f.v}}" placeholder="{{f.ph}}" placeholder-class="field-ph"
+            data-i="{{index}}" bindinput="onInput"
+          />
+        </view>
+      </view>
+
+      <!-- 多条描述 / 标签 -->
+      <view class="card" wx:if="{{hasBullets}}" style="margin-top:24rpx">
+        <view class="field-multi">
+          <textarea
+            class="multi-area" style="height:280rpx"
+            value="{{bulletsText}}" placeholder="每行一条。建议格式：动词开头 + 具体方法 + 量化结果"
+            placeholder-class="field-ph" maxlength="-1"
+            bindinput="onBulletsInput"
+          />
+        </view>
+      </view>
+
+      <!-- 个人简介 -->
+      <view class="card" wx:if="{{sheet.mode === 'summary'}}">
+        <view class="field-multi">
+          <textarea
+            class="multi-area" style="height:260rpx" maxlength="-1"
+            value="{{rows[0].v}}" placeholder="用 3 句话回答：你是谁 / 擅长什么 / 拿得出手的成果是什么"
+            placeholder-class="field-ph"
+            data-i="0" bindinput="onInput"
+          />
+        </view>
+      </view>
+
+      <view style="height:40rpx"></view>
+    </scroll-view>
+
+    <view class="sheet-foot" wx:if="{{sheet.mode === 'module'}}">
+      <view class="btn btn-danger" data-key="{{sheet.key}}" data-id="{{sheet.id}}" bindtap="remove">删除这一条</view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,162 @@
+<view class="screen">
+
+  <!-- 大标题区 -->
+  <navbar />
+  <view class="navbar-lg" style="padding-top:6rpx">
+    <view class="eyebrow">{{today}}</view>
+    <view class="t-large-title">{{greet}}</view>
+    <view class="t-subhead c-secondary" style="margin-top:8rpx">今天也让它变得更好一点点</view>
+  </view>
+
+  <!-- 多版本投递 -->
+  <view class="group">
+    <view class="group-title">简历版本</view>
+    <scroll-view scroll-x enhanced show-scrollbar="{{false}}" class="ver-scroll">
+      <view class="ver-row">
+        <view
+          class="ver-card {{v.active ? 'on' : ''}}"
+          wx:for="{{versions}}" wx:for-item="v" wx:key="id"
+          data-id="{{v.id}}" bindtap="switchVersion"
+        >
+          <view class="ver-emoji">{{v.emoji}}</view>
+          <view class="ver-name">{{v.name}}</view>
+          <view class="ver-sub">{{v.sub}}</view>
+          <view class="ver-check" wx:if="{{v.active}}">✓</view>
+          <view class="ver-eye" data-id="{{v.id}}" catchtap="viewVersion">查看</view>
+        </view>
+        <view class="ver-card add" bindtap="newVersion">
+          <view class="ver-add-icon">+</view>
+          <view class="ver-name c-secondary">新建版本</view>
+          <view class="ver-sub">投不同岗位</view>
+        </view>
+      </view>
+    </scroll-view>
+    <view class="group-foot">点一下切换版本，点「查看」直接预览这一版写成了什么样。</view>
+  </view>
+
+  <!-- 主卡片 -->
+  <view class="hero fade-in" style="background:linear-gradient(135deg, {{r.accent}} 0%, #5856D6 100%)">
+    <view class="hero-row">
+      <view class="hero-left">
+        <view class="hero-title">{{r.basic.name || '未填写姓名'}}</view>
+        <view class="hero-sub">{{r.basic.title || '还没有填写求职意向'}}</view>
+        <view class="hero-tags">
+          <text class="hero-chip">{{r.basic.city || '未知城市'}}</text>
+          <text class="hero-chip">{{atsWords}} 字</text>
+        </view>
+      </view>
+      <ring
+        percent="{{comp}}" size="{{150}}" stroke="{{13}}"
+        color="#FFFFFF" track="rgba(255,255,255,0.28)" innerBg="transparent"
+        labelColor="#FFFFFF" subColor="rgba(255,255,255,0.75)"
+        label="{{comp}}%" sub="完成度"
+      />
+    </view>
+  </view>
+
+  <!-- 快捷操作 -->
+  <view class="group">
+    <view class="quick-grid">
+      <view class="quick-item" wx:for="{{quick}}" wx:for-item="q" wx:key="text" data-url="{{q.url}}" bindtap="go" bindtouchstart="pressFeedback">
+        <view class="quick-box">
+          <view class="quick-ic" style="background:{{q.tint}}">{{q.icon}}</view>
+          <view class="quick-tx">{{q.text}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 智能体检 -->
+  <view class="group">
+    <view class="group-title">智能体检</view>
+    <view class="card">
+      <view class="row" data-url="/pages/insight/insight?tab=ats" bindtap="go">
+        <view class="row-icon" style="background:#5856D6">机器</view>
+        <view class="row-body">
+          <view class="row-title">ATS 机筛体检</view>
+          <view class="row-sub">{{atsScore >= 85 ? '简历可以放心过大部分系统' : '还有 ' + advice.length + ' 处可以继续优化'}}</view>
+        </view>
+        <view class="row-score" style="color:{{atsColor}}">{{atsScore}}</view>
+        <view class="chev"></view>
+      </view>
+      <view class="row" data-url="/pages/insight/insight?tab=jd" bindtap="go">
+        <view class="row-icon" style="background:#FF9500">JD</view>
+        <view class="row-body">
+          <view class="row-title">岗位匹配雷达</view>
+          <view class="row-sub">粘贴招聘要求，算出匹配度与缺词</view>
+        </view>
+        <view class="row-value">{{atsLevel}}</view>
+        <view class="chev"></view>
+      </view>
+      <view class="row" data-url="/pages/insight/insight?tab=interview" bindtap="go">
+        <view class="row-icon" style="background:#FF2D55">问</view>
+        <view class="row-body">
+          <view class="row-title">面试官模拟</view>
+          <view class="row-sub">根据你的项目生成 10 个追问</view>
+        </view>
+        <view class="chev"></view>
+      </view>
+      <view class="row" data-url="/pages/insight/insight?tab=ai" bindtap="go">
+        <view class="row-icon" style="background:#AF52DE">AI</view>
+        <view class="row-body">
+          <view class="row-title">AI 深度分析</view>
+          <view class="row-sub">接入大模型，做 JD 比对 / 改写 / 模拟面试</view>
+        </view>
+        <view class="chev"></view>
+      </view>
+      <view class="row" data-url="/pages/trace/trace" bindtap="go">
+        <view class="row-icon" style="background:#30B0C7">投</view>
+        <view class="row-body">
+          <view class="row-title">投递漏斗</view>
+          <view class="row-sub">共记录 {{traceTotal}} 次投递</view>
+        </view>
+        <view class="chev"></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 今日建议 -->
+  <view class="group">
+    <view class="group-title">现在最该做的事</view>
+    <view class="card">
+      <view class="advice" wx:for="{{advice}}" wx:for-item="a" wx:key="text" data-url="/pages/editor/editor" bindtap="go">
+        <view class="advice-ic">{{a.icon}}</view>
+        <view class="advice-tx">{{a.text}}</view>
+        <view class="chev"></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 成就徽章 -->
+  <view class="group">
+    <view class="group-title">成长徽章</view>
+    <view class="card" style="padding:28rpx 8rpx">
+      <scroll-view scroll-x enhanced show-scrollbar="{{false}}" class="badge-scroll">
+        <view class="badge-row">
+          <view class="badge {{b.ok ? '' : 'locked'}}" wx:for="{{badges}}" wx:for-item="b" wx:key="id" data-item="{{b}}" bindtap="goBadge">
+            <view class="badge-ic" style="background:{{b.ok ? b.color : ''}}">{{b.emoji}}</view>
+            <view class="badge-tx">{{b.name}}</view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+    <view class="group-foot">已点亮 {{badgeOn}} / {{badges.length}} 枚徽章。</view>
+  </view>
+
+  <!-- 最近投递 -->
+  <view class="group" wx:if="{{traceRecent.length}}">
+    <view class="group-title">最近投递</view>
+    <view class="card">
+      <view class="row" wx:for="{{traceRecent}}" wx:for-item="t" wx:key="id" data-url="/pages/trace/trace" bindtap="go">
+        <view class="dot" style="background:{{t.stage === 'offer' ? '#34C759' : t.stage === 'interview' ? '#FF9500' : t.stage === 'reject' ? '#FF3B30' : '#007AFF'}}"></view>
+        <view class="row-body" style="margin-left:20rpx">
+          <view class="row-title">{{t.company}} · {{t.role}}</view>
+          <view class="row-sub">{{t.date}}</view>
+        </view>
+        <view class="chev"></view>
+      </view>
+    </view>
+  </view>
+
+  <view class="tab-bottom"></view>
+</view>

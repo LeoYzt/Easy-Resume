@@ -1,0 +1,26 @@
+<view class="tabbar">
+  <view class="tabbar-fill"></view>
+  <view
+    class="tabbar-item {{item.path === active ? 'on' : ''}}"
+    wx:for="{{list}}" wx:key="path"
+    data-path="{{item.path}}" bindtap="go"
+  >
+    <!-- 简历：文档 -->
+    <view class="ic-wrap" wx:if="{{item.icon === 'doc'}}">
+      <view class="ic-doc"><view class="ic-doc-l1"></view><view class="ic-doc-l2"></view><view class="ic-doc-l3"></view></view>
+    </view>
+    <!-- 洞察：柱状图 -->
+    <view class="ic-wrap" wx:elif="{{item.icon === 'chart'}}">
+      <view class="ic-chart"><view class="b1"></view><view class="b2"></view><view class="b3"></view></view>
+    </view>
+    <!-- 模板：九宫格 -->
+    <view class="ic-wrap" wx:elif="{{item.icon === 'grid'}}">
+      <view class="ic-grid"><view class="g"></view><view class="g"></view><view class="g"></view><view class="g"></view></view>
+    </view>
+    <!-- 我的：人像 -->
+    <view class="ic-wrap" wx:else>
+      <view class="ic-me"><view class="head"></view><view class="body"></view></view>
+    </view>
+    <text class="tabbar-tx">{{item.text}}</text>
+  </view>
+</view>

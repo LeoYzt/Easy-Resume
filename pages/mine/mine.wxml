@@ -1,0 +1,177 @@
+<view class="page">
+  <navbar />
+  <view class="navbar-lg" style="padding-top:6rpx">
+    <view class="t-large-title">我的</view>
+  </view>
+
+  <view class="mn-body">
+
+    <!-- 微信身份授权 -->
+    <view class="group">
+      <view class="group-title">微信身份</view>
+      <view class="card">
+        <view class="auth">
+          <button class="ava-btn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar" hover-class="ava-hover">
+            <image class="ava-img" wx:if="{{avatarUrl}}" src="{{avatarUrl}}" mode="aspectFill" />
+            <view class="ava-ph" wx:else>
+              <view class="ava-plus">+</view>
+              <text class="ava-tx">选头像</text>
+            </view>
+          </button>
+          <view class="auth-body">
+            <view class="auth-title" wx:if="{{user}}">{{user.nickName}}</view>
+            <view class="auth-title" wx:else>未授权</view>
+            <view class="auth-sub" wx:if="{{user}}">已于 {{user.time}} 授权 · 仅保存在本机</view>
+            <view class="auth-sub" wx:else>授权后可一键把头像昵称填进简历</view>
+          </view>
+        </view>
+
+        <view class="field">
+          <view class="field-label">昵称</view>
+          <input class="field-input" type="nickname" value="{{nickname}}" placeholder="点此填写你的微信昵称"
+            placeholder-class="field-ph" bindinput="onNicknameInput" />
+        </view>
+
+        <view class="auth-btns">
+          <view class="btn btn-primary btn-sm" bindtap="saveUser">保存授权</view>
+          <view class="btn btn-gray btn-sm" bindtap="applyUserToResume">同步到简历</view>
+          <view class="btn btn-gray btn-sm" bindtap="clearUser" wx:if="{{user}}">解除</view>
+        </view>
+      </view>
+      <view class="group-foot">微信只会把头像和昵称交给你自己，开发者拿不到；这里也只存在你的手机里。</view>
+    </view>
+
+    <!-- 数据概览 -->
+    <view class="group">
+      <view class="stat-row">
+        <view class="stat-card">
+          <view class="stat-num c-blue">{{stats.resumes}}</view>
+          <view class="stat-lbl">简历版本</view>
+        </view>
+        <view class="stat-card">
+          <view class="stat-num c-orange">{{stats.trace}}</view>
+          <view class="stat-lbl">投递记录</view>
+        </view>
+        <view class="stat-card">
+          <view class="stat-num c-green">{{stats.ats}}</view>
+          <view class="stat-lbl">ATS 分数</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 简历管理 -->
+    <view class="group">
+      <view class="group-title">简历版本</view>
+      <view class="card">
+        <view class="r-item" wx:for="{{resumes}}" wx:for-item="it" wx:key="id">
+          <view class="r-main" data-id="{{it.id}}" bindtap="pick">
+            <view class="r-check {{it.active ? 'on' : ''}}">{{it.active ? '✓' : ''}}</view>
+            <view class="r-body">
+              <view class="r-name">{{it.name}}</view>
+              <view class="r-sub">{{it.sub}}</view>
+            </view>
+          </view>
+          <view class="r-ops">
+            <view class="r-op view" data-id="{{it.id}}" bindtap="viewResume">查看</view>
+            <view class="r-op" data-id="{{it.id}}" bindtap="rename">改名</view>
+            <view class="r-op" data-id="{{it.id}}" bindtap="duplicate">复制</view>
+            <view class="r-op danger" data-id="{{it.id}}" bindtap="remove">删除</view>
+          </view>
+        </view>
+        <view class="row add-row" bindtap="newVersion">
+          <view class="add-plus">+</view>
+          <view class="row-title c-blue">新建简历版本</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 快捷入口 -->
+    <view class="group">
+      <view class="group-title">继续折腾</view>
+      <view class="card">
+        <view class="row" data-url="/pages/ai/ai" bindtap="goNav">
+          <view class="row-icon" style="background:#AF52DE">AI</view>
+          <view class="row-body"><view class="row-title">AI 服务商</view>
+            <view class="row-sub">配置 API Key，开启真实大模型分析</view></view>
+          <view class="chev"></view>
+        </view>
+        <view class="row" data-url="/pages/trace/trace" bindtap="goNav">
+          <view class="row-icon" style="background:#30B0C7">📈</view>
+          <view class="row-body"><view class="row-title">投递漏斗</view>
+            <view class="row-sub">记录每一次投递的进展</view></view>
+          <view class="chev"></view>
+        </view>
+        <view class="row" data-url="/pages/share/share" bindtap="goShare">
+          <view class="row-icon" style="background:#FF2D55">🎙</view>
+          <view class="row-body"><view class="row-title">电子名片</view>
+            <view class="row-sub">生成可以发给 HR 的名片图</view></view>
+          <view class="chev"></view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 功能地图 -->
+    <view class="group">
+      <view class="group-title">这个小程序会做什么</view>
+      <view class="card">
+        <view class="ft" wx:for="{{features}}" wx:key="t" data-item="{{item}}" bindtap="tapFeature">
+          <view class="ft-ic">{{item.ic}}</view>
+          <view class="ft-body">
+            <view class="ft-t">{{item.t}}</view>
+            <view class="ft-d">{{item.d}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 数据管理 -->
+    <view class="group">
+      <view class="group-title">数据</view>
+      <view class="card">
+        <view class="row" bindtap="exportData">
+          <view class="row-icon" style="background:#34C759">↑</view>
+          <view class="row-body"><view class="row-title">导出备份</view>
+            <view class="row-sub">复制成 JSON，自己存好</view></view>
+          <view class="chev"></view>
+        </view>
+        <view class="row" bindtap="importData">
+          <view class="row-icon" style="background:#FF9500">↓</view>
+          <view class="row-body"><view class="row-title">从剪贴板导入</view>
+            <view class="row-sub">会覆盖当前数据</view></view>
+          <view class="chev"></view>
+        </view>
+        <view class="row" bindtap="clearAll">
+          <view class="row-icon" style="background:#FF3B30">🗑</view>
+          <view class="row-body"><view class="row-title c-red">清空全部数据</view></view>
+          <view class="chev"></view>
+        </view>
+      </view>
+      <view class="group-foot">所有数据只存在这台手机上，卸载小程序会一并清除 —— 重要数据记得导出备份。</view>
+    </view>
+
+    <!-- 关于 -->
+    <view class="group">
+      <view class="group-title">关于</view>
+      <view class="card">
+        <view class="row" bindtap="showLicense">
+          <view class="row-icon" style="background:#8E8E93">©</view>
+          <view class="row-body"><view class="row-title">许可与版权</view>
+            <view class="row-sub">Apache 2.0 · 附加非商用条款</view></view>
+          <view class="chev"></view>
+        </view>
+        <view class="row">
+          <view class="row-icon" style="background:#5856D6">🔒</view>
+          <view class="row-body"><view class="row-title">隐私</view>
+            <view class="row-sub">无后端、无埋点，全部计算在本机完成</view></view>
+        </view>
+        <view class="row">
+          <view class="row-icon" style="background:#AF52DE">v</view>
+          <view class="row-body"><view class="row-title">版本</view>
+            <view class="row-sub">Magic Resume Mini Program 1.0.0</view></view>
+        </view>
+      </view>
+    </view>
+
+    <view class="tab-bottom"></view>
+  </view>
+</view>

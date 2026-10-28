@@ -1,0 +1,45 @@
+/* share.wxss */
+.page { min-height: 100vh; background-color: #F2F2F7; }
+.sh-body { min-height: 60vh; }
+
+.card-wrap { padding: 20rpx 32rpx 0; }
+.id-card {
+  border-radius: 36rpx; padding: 56rpx 48rpx; color: #FFFFFF; position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #007AFF, #5856D6);
+  background: linear-gradient(135deg, var(--acc, #007AFF), #5856D6);
+  box-shadow: 0 16rpx 48rpx rgba(0,0,0,0.16); min-height: 500rpx;
+  display: flex; flex-direction: column;
+}
+.id-circle { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.10); }
+.id-circle.c1 { width: 360rpx; height: 360rpx; right: -130rpx; top: -150rpx; }
+.id-circle.c2 { width: 460rpx; height: 460rpx; left: -200rpx; bottom: -260rpx; background: rgba(255,255,255,0.06); }
+.id-brand { font-size: 20rpx; color: rgba(255,255,255,0.72); letter-spacing: 2rpx; position: relative; z-index: 2; }
+.id-name { font-size: 62rpx; font-weight: 700; letter-spacing: -1rpx; margin-top: 40rpx; position: relative; z-index: 2; }
+.id-title { font-size: 28rpx; color: rgba(255,255,255,0.9); margin-top: 8rpx; position: relative; z-index: 2; }
+.id-status { display: inline-block; margin-top: 16rpx; padding: 6rpx 18rpx; border-radius: 999rpx;
+  font-size: 22rpx; background-color: rgba(255,255,255,0.22); position: relative; z-index: 2; }
+.id-lines { margin-top: 44rpx; position: relative; z-index: 2; }
+.id-line { display: flex; align-items: center; margin-bottom: 20rpx; }
+.id-ic { width: 48rpx; font-size: 26rpx; color: rgba(255,255,255,0.75); }
+.id-tx { font-size: 27rpx; color: rgba(255,255,255,0.95); }
+.id-empty { font-size: 26rpx; color: rgba(255,255,255,0.6); }
+.id-foot { margin-top: auto; padding-top: 40rpx; font-size: 20rpx; color: rgba(255,255,255,0.55); position: relative; z-index: 2; }
+
+.id-actions { margin-top: 24rpx; }
+.id-act { background-color: #FFFFFF; border-radius: 26rpx; padding: 26rpx 32rpx;
+  display: flex; align-items: center; justify-content: space-between;
+  box-shadow: 0 1rpx 2rpx rgba(0,0,0,0.03), 0 8rpx 24rpx rgba(0,0,0,0.04); }
+.id-act-t { font-size: 30rpx; }
+
+.rec-row { display: flex; align-items: center; padding: 30rpx 30rpx 10rpx; }
+.wave { flex: 1; display: flex; align-items: center; height: 64rpx; }
+.wave-bar { width: 7rpx; border-radius: 999rpx; background-color: rgba(120,120,128,0.28); margin-right: 7rpx;
+  transition: height .3s cubic-bezier(.32,.72,0,1); }
+.wave.live .wave-bar { background-color: #FF3B30; }
+.rec-sec { font-size: 30rpx; color: rgba(60,60,67,0.55); width: 90rpx; text-align: right; font-variant-numeric: tabular-nums; }
+
+.rec-btns { display: flex; flex-wrap: wrap; padding: 20rpx 30rpx 10rpx; }
+.rec-btns .btn { flex: 1; min-width: 200rpx; margin: 8rpx; }
+.rec-tip { padding: 8rpx 32rpx 28rpx; font-size: 24rpx; color: rgba(60,60,67,0.45); line-height: 1.5; }
+
+.off-canvas { position: fixed; left: -9999px; top: -9999px; width: 1080px; height: 100px; }

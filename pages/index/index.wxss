@@ -1,0 +1,45 @@
+/* index.wxss */
+.screen { min-height: 100vh; }
+.hero-row { display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 2; }
+.hero-left { flex: 1; min-width: 0; padding-right: 20rpx; }
+.hero-tags { display: flex; margin-top: 18rpx; }
+.hero-chip {
+  font-size: 22rpx; padding: 6rpx 18rpx; border-radius: 999rpx;
+  background: rgba(255,255,255,0.22); margin-right: 12rpx;
+}
+
+/* 版本卡 */
+.ver-scroll { white-space: nowrap; margin: 0 -32rpx; padding: 0 32rpx 4rpx; }
+.ver-row { display: inline-flex; }
+.ver-card {
+  width: 200rpx; background-color: #FFFFFF; border-radius: 26rpx; padding: 26rpx 22rpx;
+  margin-right: 20rpx; position: relative; flex-shrink: 0;
+  box-shadow: 0 1rpx 2rpx rgba(0,0,0,0.03), 0 8rpx 24rpx rgba(0,0,0,0.05);
+  border: 3rpx solid transparent;
+  transition: transform .24s cubic-bezier(.34,1.56,.64,1), border-color .2s ease;
+}
+.ver-card.on { border-color: #007AFF; transform: translateY(-4rpx); }
+.ver-card.add { display: flex; flex-direction: column; justify-content: center; align-items: center;
+  background-color: rgba(255,255,255,0.55); box-shadow: none; border-style: dashed;
+  border-color: rgba(60,60,67,0.18); }
+.ver-emoji { font-size: 40rpx; }
+.ver-name { font-size: 28rpx; font-weight: 600; margin-top: 8rpx;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ver-sub { font-size: 22rpx; color: rgba(60,60,67,0.45); margin-top: 4rpx; }
+.ver-check { position: absolute; right: 16rpx; top: 14rpx; font-size: 22rpx; color: #007AFF; font-weight: 700; }
+.ver-add-icon { font-size: 46rpx; color: rgba(60,60,67,0.3); line-height: 1; }
+.ver-eye {
+  position: absolute; right: 0; bottom: 0; padding: 6rpx 20rpx;
+  font-size: 20rpx; color: #007AFF; background-color: rgba(0,122,255,0.08);
+  border-radius: 999rpx 0 26rpx 0;
+}
+.badge-scroll { white-space: nowrap; }
+.badge-row { display: inline-flex; }
+.row-score { font-size: 40rpx; font-weight: 700; font-variant-numeric: tabular-nums; margin-right: 14rpx; }
+
+/* 建议 */
+.advice { display: flex; align-items: flex-start; padding: 26rpx 30rpx; position: relative; }
+.advice + .advice::before { content: ""; position: absolute; left: 30rpx; right: 0; top: 0;
+  height: 1rpx; background-color: rgba(60,60,67,0.16); }
+.advice-ic { font-size: 34rpx; margin-right: 20rpx; line-height: 1.3; }
+.advice-tx { flex: 1; font-size: 28rpx; color: rgba(60,60,67,0.85); line-height: 1.5; }

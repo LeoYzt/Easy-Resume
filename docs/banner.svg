@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" fill="none" role="img">
+  <title>Magic Resume 微信小程序版</title>
+  <desc>苹果设计风格的微信小程序简历工具，本地离线智能分析，支持接入自有大模型。</desc>
+
+  <rect width="1200" height="340" rx="24" fill="#F2F2F7"/>
+  <rect x="0" y="0" width="1200" height="6" rx="3" fill="#007AFF"/>
+  <circle cx="1080" cy="40" r="150" fill="#007AFF" opacity="0.06"/>
+  <circle cx="1140" cy="320" r="180" fill="#5856D6" opacity="0.05"/>
+
+  <text x="72" y="104" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Segoe UI', 'Helvetica Neue', sans-serif" font-size="52" font-weight="700" fill="#1C1C1E" letter-spacing="-1">Magic Resume</text>
+  <text x="72" y="150" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Segoe UI', sans-serif" font-size="26" font-weight="500" fill="#007AFF">微信小程序版</text>
+
+  <text x="72" y="200" font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Segoe UI', sans-serif" font-size="19" fill="#5A5A5E">苹果设计语言 · 离线可用的智能分析 · 自带 Key 接入自己的大模型</text>
+
+  <g font-family="-apple-system, BlinkMacSystemFont, 'PingFang SC', 'Segoe UI', sans-serif" font-size="15" fill="#3A3A3C">
+    <rect x="72" y="232" width="112" height="36" rx="18" fill="#FFFFFF"/>
+    <text x="128" y="255" text-anchor="middle">零依赖</text>
+
+    <rect x="196" y="232" width="152" height="36" rx="18" fill="#FFFFFF"/>
+    <text x="272" y="255" text-anchor="middle">离线智能分析</text>
+
+    <rect x="360" y="232" width="132" height="36" rx="18" fill="#FFFFFF"/>
+    <text x="426" y="255" text-anchor="middle">6 套模板</text>
+
+    <rect x="504" y="232" width="146" height="36" rx="18" fill="#FFFFFF"/>
+    <text x="577" y="255" text-anchor="middle">59 项测试</text>
+  </g>
+
+  <g transform="translate(880 40)">
+    <rect x="0" y="0" width="200" height="260" rx="26" fill="#1C1C1E"/>
+    <rect x="7" y="7" width="186" height="246" rx="20" fill="#FFFFFF"/>
+    <rect x="78" y="14" width="44" height="7" rx="3.5" fill="#1C1C1E"/>
+
+    <rect x="22" y="42" width="70" height="9" rx="4.5" fill="#1C1C1E"/>
+    <rect x="22" y="58" width="102" height="6" rx="3" fill="#007AFF" opacity="0.85"/>
+    <rect x="22" y="72" width="46" height="4" rx="2" fill="#C7C7CC"/>
+    <rect x="74" y="72" width="34" height="4" rx="2" fill="#C7C7CC"/>
+
+    <rect x="22" y="96" width="156" height="56" rx="12" fill="#007AFF"/>
+    <rect x="34" y="110" width="62" height="7" rx="3.5" fill="#FFFFFF" opacity="0.95"/>
+    <rect x="34" y="124" width="88" height="5" rx="2.5" fill="#FFFFFF" opacity="0.6"/>
+    <circle cx="156" cy="124" r="14" stroke="#FFFFFF" stroke-width="4" opacity="0.45"/>
+    <path d="M156 110 a14 14 0 0 1 0 28" stroke="#FFFFFF" stroke-width="4" fill="none"/>
+
+    <rect x="22" y="170" width="52" height="6" rx="3" fill="#3A3A3C"/>
+    <rect x="22" y="186" width="156" height="5" rx="2.5" fill="#E5E5EA"/>
+    <rect x="22" y="198" width="128" height="5" rx="2.5" fill="#E5E5EA"/>
+    <rect x="22" y="210" width="96" height="5" rx="2.5" fill="#E5E5EA"/>
+
+    <rect x="22" y="228" width="34" height="12" rx="6" fill="#E5E5EA"/>
+    <rect x="62" y="228" width="26" height="12" rx="6" fill="#E5E5EA"/>
+    <rect x="94" y="228" width="18" height="12" rx="6" fill="#E5E5EA"/>
+  </g>
+</svg>
