@@ -1,0 +1,192 @@
+/* templates.wxss —— 模板库
+   注意：缩略图相关类统一用 mini- 前缀，底部操作栏用 act- 前缀，
+   避免与全局类（tp-*）或彼此重名导致定位被覆盖。 */
+
+.page { min-height: 100vh; background-color: #F2F2F7; }
+.tp-body { min-height: 100vh; }
+.tp-space { height: calc(280rpx + env(safe-area-inset-bottom, 0px)); }
+
+/* ---------------- 网格 ---------------- */
+.tpl-grid { display: flex; flex-wrap: wrap; padding: 12rpx 24rpx 0; }
+.tpl-card { width: 50%; padding: 12rpx; position: relative; }
+
+/* ---------------- 迷你简历缩略图 ---------------- */
+.mini {
+  position: relative;
+  height: 300rpx;
+  border-radius: 16rpx 16rpx 0 0;
+  background-color: #FFFFFF;
+  overflow: hidden;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.06);
+  transition: box-shadow .24s ease;
+}
+.tpl-card.on .mini { box-shadow: 0 10rpx 28rpx rgba(0,122,255,0.2); }
+
+.mini-rule {
+  height: 6rpx; width: 100%;
+  background-color: #007AFF;
+  background-color: var(--acc, #007AFF);
+}
+
+.mini-page { padding: 16rpx 18rpx 0; }
+
+.mini-head { padding-bottom: 10rpx; }
+
+.mini-nm {
+  font-size: 25rpx; font-weight: 700; line-height: 1.2; color: #111;
+  letter-spacing: -0.3rpx;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.mini-role {
+  font-size: 13rpx; margin-top: 3rpx; line-height: 1.3;
+  color: #007AFF; color: var(--acc, #007AFF);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.mini-ct { display: flex; align-items: center; margin-top: 7rpx; }
+.mini-ct-i {
+  height: 5rpx; border-radius: 999rpx;
+  background-color: rgba(60,60,67,0.16);
+  margin-right: 6rpx;
+}
+.mini-ct-i:nth-child(1) { width: 42rpx; }
+.mini-ct-i:nth-child(2) { width: 30rpx; }
+.mini-ct-i:nth-child(3) { width: 22rpx; }
+
+.mini-sec {
+  font-size: 12rpx; font-weight: 700; letter-spacing: 0.5rpx;
+  color: #007AFF; color: var(--acc, #007AFF);
+  margin-top: 14rpx; padding-bottom: 4rpx;
+  border-bottom: 1rpx solid rgba(60,60,67,0.12);
+}
+.mini-l {
+  height: 5rpx; border-radius: 999rpx;
+  background-color: rgba(60,60,67,0.14);
+  margin-top: 7rpx;
+}
+.w95 { width: 95%; } .w80 { width: 80%; } .w60 { width: 60%; }
+
+.mini-tags { display: flex; margin-top: 8rpx; }
+.mini-tag {
+  width: 30rpx; height: 12rpx; border-radius: 999rpx;
+  background-color: rgba(120,120,128,0.16);
+  margin-right: 6rpx;
+}
+.mini-tag:last-child { width: 18rpx; }
+
+.mini-pick {
+  position: absolute; right: 12rpx; top: 14rpx;
+  width: 34rpx; height: 34rpx; border-radius: 50%;
+  background-color: #007AFF; color: #FFFFFF;
+  font-size: 19rpx; line-height: 34rpx; text-align: center;
+  box-shadow: 0 4rpx 12rpx rgba(0,122,255,0.35);
+}
+
+/* ---------- 变体：极简 ---------- */
+.mini-minimal .mini-rule { display: none; }
+.mini-minimal .mini-head { text-align: center; padding-top: 8rpx; padding-bottom: 14rpx; }
+.mini-minimal .mini-nm { font-weight: 300; font-size: 27rpx; letter-spacing: 1.5rpx; }
+.mini-minimal .mini-role { letter-spacing: 1rpx; }
+.mini-minimal .mini-ct { justify-content: center; }
+.mini-minimal .mini-sec {
+  font-weight: 400; letter-spacing: 1.6rpx; font-size: 11rpx;
+  border-bottom: 1rpx solid rgba(60,60,67,0.1);
+}
+.mini-minimal .mini-sec { color: #3A3A3C; }
+
+/* ---------- 变体：雅致 ---------- */
+.mini-elegant { background-color: #FDFBF8; }
+.mini-elegant .mini-head { text-align: center; padding-top: 6rpx; padding-bottom: 14rpx; }
+.mini-elegant .mini-nm { font-family: "Songti SC", "Times New Roman", serif; font-size: 27rpx; }
+.mini-elegant .mini-role { font-family: "Songti SC", serif; }
+.mini-elegant .mini-ct { justify-content: center; }
+.mini-elegant .mini-sec { font-family: "Songti SC", serif; letter-spacing: 1.4rpx; }
+
+/* ---------- 变体：创意 ---------- */
+.mini-creative .mini-rule { display: none; }
+.mini-creative .mini-head {
+  margin: 0 -18rpx;
+  padding: 20rpx 18rpx 16rpx;
+  background: linear-gradient(135deg, #007AFF 0%, #5856D6 100%);
+  background: linear-gradient(135deg, var(--acc, #007AFF), #5856D6);
+}
+.mini-creative .mini-nm { color: #FFFFFF; }
+.mini-creative .mini-role { color: rgba(255,255,255,0.9); }
+.mini-creative .mini-ct-i { background-color: rgba(255,255,255,0.35); }
+.mini-creative .mini-tag { background-color: rgba(120,120,128,0.12); }
+
+/* ---------- 变体：瑞士 ---------- */
+.mini-swiss .mini-rule { height: 12rpx; background-color: #111; }
+.mini-swiss .mini-head { border-bottom: 3rpx solid #111; padding-bottom: 8rpx; }
+.mini-swiss .mini-nm { letter-spacing: -0.6rpx; }
+.mini-swiss .mini-role { color: #111; font-weight: 600; }
+.mini-swiss .mini-sec { color: #111; border-bottom: 2rpx solid #111; }
+.mini-swiss .mini-l { background-color: rgba(0,0,0,0.22); }
+
+/* ---------- 变体：时间轴 ---------- */
+.mini-timeline .mini-page { padding-left: 28rpx; position: relative; }
+.mini-timeline .mini-page::before {
+  content: ""; position: absolute; left: 14rpx; top: 74rpx; bottom: 18rpx;
+  width: 2rpx; background-color: rgba(60,60,67,0.14);
+}
+.mini-timeline .mini-sec { position: relative; padding-left: 10rpx; }
+.mini-timeline .mini-sec::before {
+  content: ""; position: absolute; left: -18rpx; top: 2rpx;
+  width: 8rpx; height: 8rpx; border-radius: 50%;
+  background-color: #007AFF; background-color: var(--acc, #007AFF);
+}
+.mini-timeline .mini-l { margin-left: 10rpx; }
+.mini-timeline .mini-tags { margin-left: 10rpx; }
+
+/* ---------------- 卡片文字区 ---------------- */
+.tpl-meta {
+  background-color: #FFFFFF;
+  border-radius: 0 0 16rpx 16rpx;
+  padding: 18rpx 20rpx 22rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.06);
+  border-top: 1rpx solid rgba(60,60,67,0.08);
+}
+.tpl-name-row { display: flex; align-items: center; }
+.tpl-name { font-size: 28rpx; font-weight: 600; }
+.tpl-tag {
+  font-size: 18rpx; padding: 3rpx 12rpx; border-radius: 999rpx;
+  background-color: rgba(0,122,255,0.1); color: #007AFF; margin-left: 10rpx;
+}
+.tpl-card.on .tpl-name { color: #007AFF; }
+.tpl-desc { font-size: 21rpx; color: rgba(60,60,67,0.5); margin-top: 6rpx; line-height: 1.4; }
+
+/* ---------------- 主题色 ---------------- */
+.acc-row { display: flex; flex-wrap: wrap; }
+.acc { width: 25%; display: flex; flex-direction: column; align-items: center; padding: 12rpx 0; }
+.acc-c {
+  width: 76rpx; height: 76rpx; border-radius: 50%;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.1); border: 4rpx solid transparent;
+  transition: transform .22s cubic-bezier(.34,1.56,.64,1);
+}
+.acc.on .acc-c { border-color: rgba(60,60,67,0.25); transform: scale(1.08); }
+.acc-n { font-size: 20rpx; color: rgba(60,60,67,0.5); margin-top: 8rpx; }
+
+/* ---------------- 固定底部操作栏 ---------------- */
+.act-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+  display: flex; align-items: center;
+  padding: 18rpx 26rpx calc(120rpx + env(safe-area-inset-bottom, 0px));
+  background-color: rgba(255,255,255,0.94);
+  backdrop-filter: saturate(180%) blur(24px);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+  border-top: 1rpx solid rgba(60,60,67,0.1);
+}
+.act-info { flex: 1; min-width: 0; }
+.act-k { font-size: 20rpx; color: rgba(60,60,67,0.45); letter-spacing: 0.5rpx; }
+.act-v { display: flex; align-items: center; font-size: 30rpx; font-weight: 600; margin-top: 2rpx; }
+.act-tag {
+  font-size: 18rpx; font-weight: 400; padding: 3rpx 12rpx; border-radius: 999rpx;
+  background-color: rgba(0,122,255,0.1); color: #007AFF; margin-left: 12rpx;
+}
+.act-btn {
+  flex-shrink: 0; height: 88rpx; padding: 0 44rpx; border-radius: 24rpx;
+  display: flex; align-items: center; justify-content: center;
+  background-color: #007AFF; color: #FFFFFF; font-size: 30rpx; font-weight: 600;
+  box-shadow: 0 8rpx 24rpx rgba(0,122,255,0.3);
+  transition: transform .18s cubic-bezier(.34,1.56,.64,1), opacity .18s ease;
+}
+.act-btn-hover { transform: scale(0.95); opacity: 0.86; }

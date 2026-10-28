@@ -1,0 +1,79 @@
+<view class="page">
+  <navbar />
+  <view class="navbar-lg" style="padding-top:6rpx">
+    <view class="eyebrow">{{r.name}}</view>
+    <view class="t-large-title">模板</view>
+    <view class="t-subhead c-secondary" style="margin-top:8rpx">同一份内容，六种气质</view>
+  </view>
+
+  <view class="tp-body">
+
+    <!-- 模板网格 -->
+    <view class="tpl-grid">
+      <view class="tpl-card {{cur === item.key ? 'on' : ''}}" wx:for="{{tpls}}" wx:for-item="t" wx:key="key"
+        data-k="{{t.key}}" bindtap="apply" bindlongpress="longPressTpl">
+        <view class="mini mini-{{t.key}}" style="--acc:{{accent}}">
+          <view class="mini-rule"></view>
+          <view class="mini-page">
+            <view class="mini-head">
+              <view class="mini-nm">{{r.basic.name || '你的姓名'}}</view>
+              <view class="mini-role">{{r.basic.title || '求职意向'}}</view>
+              <view class="mini-ct">
+                <text class="mini-ct-i"></text>
+                <text class="mini-ct-i"></text>
+                <text class="mini-ct-i"></text>
+              </view>
+            </view>
+
+            <view class="mini-sec">工作经历</view>
+            <view class="mini-l w95"></view>
+            <view class="mini-l w80"></view>
+            <view class="mini-l w60"></view>
+
+            <view class="mini-sec">专业技能</view>
+            <view class="mini-tags">
+              <text class="mini-tag"></text>
+              <text class="mini-tag"></text>
+              <text class="mini-tag"></text>
+            </view>
+          </view>
+          <view class="mini-pick" wx:if="{{cur === t.key}}">✓</view>
+        </view>
+
+        <view class="tpl-meta">
+          <view class="tpl-name-row">
+            <text class="tpl-name">{{t.name}}</text>
+            <text class="tpl-tag">{{t.tag}}</text>
+          </view>
+          <view class="tpl-desc">{{t.desc}}</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 主题色 -->
+    <view class="group">
+      <view class="group-title">主题色</view>
+      <view class="card" style="padding:30rpx 26rpx">
+        <view class="acc-row">
+          <view class="acc {{accent === item.value ? 'on' : ''}}" wx:for="{{accents}}" wx:for-item="a" wx:key="value"
+            data-c="{{a.value}}" bindtap="pickAccent">
+            <view class="acc-c" style="background:{{a.value}}"></view>
+            <view class="acc-n">{{a.name}}</view>
+          </view>
+        </view>
+      </view>
+      <view class="group-foot">主题色会同时应用在模板标题、项目符号和导出长图的顶部色条上。</view>
+    </view>
+
+    <view class="tp-space"></view>
+  </view>
+
+  <!-- 固定底部操作栏 -->
+  <view class="act-bar">
+    <view class="act-info">
+      <view class="act-k">当前模板</view>
+      <view class="act-v">{{curMeta.name}}<text class="act-tag">{{curMeta.tag}}</text></view>
+    </view>
+    <view class="act-btn" bindtap="goPreview" hover-class="act-btn-hover">用它去预览</view>
+  </view>
+</view>

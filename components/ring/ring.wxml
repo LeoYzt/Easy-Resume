@@ -1,0 +1,14 @@
+<view class="ring-wrap" style="width:{{size}}rpx;height:{{size}}rpx">
+  <view
+    class="ring-track"
+    style="width:{{size}}rpx;height:{{size}}rpx;border-radius:50%;background:conic-gradient({{color}} 0%, {{color}} {{shown}}%, {{track}} {{shown}}%, {{track}} 100%);"
+  >
+    <view
+      class="ring-inner"
+      style="width:{{size - stroke * 2}}rpx;height:{{size - stroke * 2}}rpx;border-radius:50%;background:{{innerBg}}"
+    >
+      <text class="ring-label" wx:if="{{label}}" style="color:{{labelColor}}">{{label}}</text>
+      <text class="ring-sub" wx:if="{{sub}}" style="color:{{subColor}}">{{sub}}</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,8 @@
+{
+  "navigationStyle": "custom",
+  "backgroundColor": "#F2F2F7",
+  "usingComponents": {
+    "ring": "/components/ring/ring",
+    "navbar": "/components/navbar/navbar"
+  }
+}

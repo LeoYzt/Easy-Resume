@@ -1,0 +1,25 @@
+/* trace.wxss */
+.fn { margin-bottom: 26rpx; }
+.fn-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12rpx; }
+.fn-name { font-size: 27rpx; color: rgba(60,60,67,0.75); }
+.fn-num { font-size: 32rpx; font-weight: 700; font-variant-numeric: tabular-nums; }
+.fn-track { height: 22rpx; border-radius: 999rpx; background-color: rgba(120,120,128,0.14); overflow: hidden; }
+.fn-fill { height: 100%; border-radius: 999rpx; transition: width .8s cubic-bezier(.32,.72,0,1); }
+
+.fn-stat { display: flex; margin-top: 34rpx; padding-top: 28rpx; border-top: 1rpx solid rgba(60,60,67,0.12); }
+.fn-stat-i { flex: 1; text-align: center; }
+.fn-stat-n { font-size: 44rpx; font-weight: 700; letter-spacing: -1rpx; font-variant-numeric: tabular-nums; }
+.fn-stat-l { font-size: 22rpx; color: rgba(60,60,67,0.5); margin-top: 2rpx; }
+
+.tr { display: flex; align-items: center; padding: 24rpx 30rpx; position: relative; }
+.tr + .tr::before { content: ""; position: absolute; left: 30rpx; right: 0; top: 0;
+  height: 1rpx; background-color: rgba(60,60,67,0.16); }
+.tr-main { flex: 1; min-width: 0; }
+.tr-top { display: flex; align-items: center; }
+.tr-dot { width: 14rpx; height: 14rpx; border-radius: 50%; margin-right: 16rpx; flex-shrink: 0; }
+.tr-co { font-size: 31rpx; font-weight: 600; flex: 1; }
+.tr-stage { font-size: 22rpx; padding: 6rpx 18rpx; border-radius: 999rpx;
+  background-color: rgba(118,118,128,0.12); color: rgba(60,60,67,0.7); }
+.tr-sub { font-size: 24rpx; color: rgba(60,60,67,0.55); margin-top: 6rpx;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tr-del { width: 60rpx; text-align: center; font-size: 36rpx; color: rgba(60,60,67,0.28); margin-left: 12rpx; }

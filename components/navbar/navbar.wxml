@@ -1,0 +1,10 @@
+<view class="nb {{transparent ? 'nb-transparent' : ''}}" style="padding-top:{{statusBarH}}px">
+  <view class="nb-bar" wx:if="{{showBack || title}}">
+    <view class="nb-back" wx:if="{{showBack}}" bindtap="back" hover-class="nb-hover">
+      <view class="nb-chev"></view>
+      <text class="nb-back-tx">{{backText || '返回'}}</text>
+    </view>
+    <view class="nb-title" wx:if="{{title}}">{{title}}</view>
+    <view class="nb-right"><slot name="right"></slot></view>
+  </view>
+</view>

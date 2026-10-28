@@ -1,0 +1,54 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/editor/editor",
+    "pages/preview/preview",
+    "pages/ai/ai",
+    "pages/insight/insight",
+    "pages/templates/templates",
+    "pages/trace/trace",
+    "pages/share/share",
+    "pages/mine/mine"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#F2F2F7",
+    "navigationBarTitleText": "Magic Resume",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F2F2F7",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "custom": true,
+    "color": "#999999",
+    "selectedColor": "#007AFF",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "white",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "简历"
+      },
+      {
+        "pagePath": "pages/insight/insight",
+        "text": "洞察"
+      },
+      {
+        "pagePath": "pages/templates/templates",
+        "text": "模板"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "componentFramework": "glass-easel",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents",
+  "permission": {
+    "scope.record": {
+      "desc": "用于录制 30 秒语音自我介绍（仅保存在本机，不会上传）"
+    }
+  }
+}

@@ -1,0 +1,86 @@
+<view class="screen">
+  <!-- 漏斗 -->
+  <view class="group">
+    <view class="group-title">转化漏斗</view>
+    <view class="card" style="padding:36rpx 30rpx">
+      <view class="fn" wx:for="{{funnel}}" wx:key="key">
+        <view class="fn-head">
+          <text class="fn-name">{{item.name}}</text>
+          <text class="fn-num t-mono">{{item.n}}</text>
+        </view>
+        <view class="fn-track">
+          <view class="fn-fill" style="width:{{item.w}}%; background:{{item.color}}"></view>
+        </view>
+      </view>
+      <view class="fn-stat">
+        <view class="fn-stat-i">
+          <view class="fn-stat-n c-orange">{{rateInterview}}%</view>
+          <view class="fn-stat-l">面试转化率</view>
+        </view>
+        <view class="fn-stat-i">
+          <view class="fn-stat-n c-green">{{rateOffer}}%</view>
+          <view class="fn-stat-l">Offer 转化率</view>
+        </view>
+        <view class="fn-stat-i">
+          <view class="fn-stat-n">{{total}}</view>
+          <view class="fn-stat-l">总投递</view>
+        </view>
+      </view>
+    </view>
+    <view class="group-foot">面试率低于 10% 通常说明简历和岗位不匹配，回「洞察」跑一次 JD 雷达。</view>
+  </view>
+
+  <!-- 记录列表 -->
+  <view class="group">
+    <view class="group-title">投递记录（{{total}}）</view>
+    <view class="card" wx:if="{{total}}">
+      <view class="tr" wx:for="{{list}}" wx:key="id">
+        <view class="tr-main" data-id="{{item.id}}" bindtap="changeStage">
+          <view class="tr-top">
+            <view class="tr-dot" style="background:{{item.stage === 'offer' ? '#34C759' : item.stage === 'interview' ? '#FF9500' : item.stage === 'reject' ? '#FF3B30' : item.stage === 'read' ? '#007AFF' : '#8E8E93'}}"></view>
+            <view class="tr-co">{{item.company}}</view>
+            <view class="tr-stage">{{item.stage === 'offer' ? 'Offer' : item.stage === 'interview' ? '面试中' : item.stage === 'reject' ? '已结束' : item.stage === 'read' ? '被查看' : '已投递'}}</view>
+          </view>
+          <view class="tr-sub">{{item.role}}<block wx:if="{{item.channel}}"> · {{item.channel}}</block></view>
+          <view class="tr-sub c-tertiary">{{item.date}}<block wx:if="{{item.note}}"> · {{item.note}}</block></view>
+        </view>
+        <view class="tr-del" data-id="{{item.id}}" bindtap="remove">×</view>
+      </view>
+    </view>
+    <view class="card empty" wx:else>
+      <view class="empty-ic">📮</view>
+      <view class="empty-tx">还没有投递记录。投出第一份，把反馈收回来。</view>
+    </view>
+  </view>
+
+  <view class="group">
+    <view class="btn btn-primary" bindtap="openAdd">+ 记录一次投递</view>
+    <view class="btn btn-gray" style="margin-top:20rpx" bindtap="clearAll" wx:if="{{total}}">清空全部记录</view>
+  </view>
+
+  <view class="safe-bottom"></view>
+</view>
+
+<!-- 新增弹层 -->
+<view class="mask {{sheet ? 'show' : ''}}" bindtap="closeAdd" wx:if="{{sheet}}"></view>
+<view class="sheet {{sheet ? 'show' : ''}}">
+  <view class="sheet-grab"></view>
+  <view class="sheet-head">
+    <view class="link-btn" bindtap="closeAdd">取消</view>
+    <view class="t-headline">记录投递</view>
+    <view class="link-btn w-semi" bindtap="submit">存储</view>
+  </view>
+  <scroll-view scroll-y class="sheet-body" enhanced show-scrollbar="{{false}}">
+    <view class="card">
+      <view class="field"><view class="field-label">公司</view>
+        <input class="field-input" value="{{form.company}}" placeholder="公司名称" placeholder-class="field-ph" data-k="company" bindinput="onFormInput"/></view>
+      <view class="field"><view class="field-label">岗位</view>
+        <input class="field-input" value="{{form.role}}" placeholder="如 前端开发工程师" placeholder-class="field-ph" data-k="role" bindinput="onFormInput"/></view>
+      <view class="field"><view class="field-label">渠道</view>
+        <input class="field-input" value="{{form.channel}}" placeholder="如 官网 / 内推 / BOSS" placeholder-class="field-ph" data-k="channel" bindinput="onFormInput"/></view>
+      <view class="field"><view class="field-label">备注</view>
+        <input class="field-input" value="{{form.note}}" placeholder="可空" placeholder-class="field-ph" data-k="note" bindinput="onFormInput"/></view>
+    </view>
+    <view style="height:40rpx"></view>
+  </scroll-view>
+</view>

@@ -1,0 +1,56 @@
+/* mine.wxss */
+.page { min-height: 100vh; background-color: #F2F2F7; }
+.mn-body { min-height: 60vh; }
+
+.stat-row { display: flex; margin: 0 32rpx; }
+.stat-row .stat-card { margin: 0 8rpx; }
+
+.r-item { padding: 20rpx 30rpx; position: relative; }
+.r-item + .r-item::before { content: ""; position: absolute; left: 30rpx; right: 0; top: 0;
+  height: 1rpx; background-color: rgba(60,60,67,0.16); }
+.r-main { display: flex; align-items: center; }
+.r-check { width: 44rpx; height: 44rpx; border-radius: 50%; margin-right: 20rpx; flex-shrink: 0;
+  border: 2rpx solid rgba(60,60,67,0.22); display: flex; align-items: center; justify-content: center;
+  font-size: 24rpx; color: #FFFFFF; transition: all .22s cubic-bezier(.34,1.56,.64,1); }
+.r-check.on { background-color: #007AFF; border-color: #007AFF; }
+.r-body { flex: 1; min-width: 0; }
+.r-name { font-size: 31rpx; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.r-sub { font-size: 23rpx; color: rgba(60,60,67,0.5); margin-top: 4rpx; }
+.r-ops { display: flex; margin-top: 14rpx; margin-left: 64rpx; }
+.r-op { font-size: 24rpx; color: #007AFF; padding: 8rpx 22rpx; border-radius: 999rpx;
+  background-color: rgba(0,122,255,0.08); margin-right: 14rpx; }
+.r-op.danger { color: #FF3B30; background-color: rgba(255,59,48,0.08); }
+.r-op.view { color: #248A3D; background-color: rgba(52,199,89,0.14); }
+
+/* 微信授权 */
+.auth { display: flex; align-items: center; padding: 28rpx 30rpx 24rpx; }
+.ava-btn {
+  width: 128rpx; height: 128rpx; border-radius: 50%; padding: 0; margin: 0 26rpx 0 0;
+  background-color: rgba(0,122,255,0.06); overflow: hidden; line-height: 1;
+  border: 3rpx dashed rgba(0,122,255,0.35);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0;
+  transition: transform .2s cubic-bezier(.34,1.56,.64,1), background-color .2s ease;
+}
+.ava-hover { transform: scale(0.94); background-color: rgba(0,122,255,0.12); }
+.ava-btn::after { border: none; }
+.ava-img { width: 128rpx; height: 128rpx; border-radius: 50%; }
+.ava-ph { display: flex; flex-direction: column; align-items: center; }
+.ava-plus {
+  width: 44rpx; height: 44rpx; border-radius: 50%;
+  background-color: #007AFF; color: #FFFFFF; font-size: 32rpx; line-height: 40rpx;
+  text-align: center; margin-bottom: 4rpx;
+}
+.ava-tx { font-size: 20rpx; color: #007AFF; }
+.auth-body { flex: 1; min-width: 0; }
+.auth-title { font-size: 34rpx; font-weight: 600; }
+.auth-sub { font-size: 23rpx; color: rgba(60,60,67,0.5); margin-top: 6rpx; line-height: 1.45; }
+.auth-btns { display: flex; padding: 4rpx 24rpx 26rpx; }
+.auth-btns .btn { flex: 1; margin: 8rpx; }
+
+.ft { display: flex; align-items: flex-start; padding: 22rpx 30rpx; position: relative; }
+.ft + .ft::before { content: ""; position: absolute; left: 30rpx; right: 0; top: 0;
+  height: 1rpx; background-color: rgba(60,60,67,0.16); }
+.ft-ic { font-size: 34rpx; margin-right: 22rpx; line-height: 1.3; }
+.ft-body { flex: 1; min-width: 0; }
+.ft-t { font-size: 29rpx; font-weight: 600; }
+.ft-d { font-size: 23rpx; color: rgba(60,60,67,0.5); margin-top: 4rpx; line-height: 1.45; }

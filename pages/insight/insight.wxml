@@ -1,0 +1,267 @@
+<view class="page">
+  <navbar />
+
+  <view class="ins-head">
+    <view class="navbar-lg" style="padding-top:6rpx; padding-bottom:0">
+      <view class="eyebrow">本地运行 · 数据不上传</view>
+      <view class="t-large-title">AI 洞察</view>
+    </view>
+    <scroll-view scroll-x enhanced show-scrollbar="{{false}}" class="tab-scroll">
+      <view class="seg-scroll">
+        <view class="seg-item {{tab === item.key ? 'on' : ''}}" wx:for="{{tabs}}" wx:key="key"
+          data-k="{{item.key}}" bindtap="pickTab">{{item.name}}</view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class="ins-body">
+
+    <!-- ============ JD 雷达 ============ -->
+    <block wx:if="{{tab === 'jd'}}">
+      <view class="group">
+        <view class="group-title">粘贴岗位要求</view>
+        <view class="card">
+          <view class="field-multi">
+            <textarea class="multi-area" style="height:280rpx" maxlength="-1"
+              value="{{jdText}}" placeholder="把招聘 JD 整段粘进来，包含「岗位职责」和「任职要求」效果最好"
+              placeholder-class="field-ph" bindinput="onJDInput" bindblur="runJD" />
+          </view>
+        </view>
+        <view class="group-foot">引擎会抽出 JD 里的关键词，再和你的简历做交集 —— 全程在本机完成。</view>
+      </view>
+
+      <view class="group">
+        <view class="jd-row">
+          <view class="btn btn-gray btn-sm" bindtap="pasteDemo">填入示例 JD</view>
+          <view class="btn btn-primary btn-sm" bindtap="runJD">开始匹配</view>
+        </view>
+      </view>
+
+      <block wx:if="{{jd}}">
+        <view class="group">
+          <view class="card score-card">
+            <ring percent="{{jd.score}}" size="{{220}}" stroke="{{18}}" color="{{jdColor}}"
+              label="{{jd.score}}" sub="匹配度" />
+            <view class="score-tx">
+              <view class="t-title-3">{{jdAdvice}}</view>
+              <view class="t-footnote c-secondary" style="margin-top:10rpx">
+                命中 {{jd.hit.length}} / {{jd.terms.length}} 个关键词
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <view class="group">
+          <view class="group-title">✓ 已覆盖（{{jd.hit.length}}）</view>
+          <view class="card" style="padding:24rpx 20rpx 12rpx">
+            <text class="chip chip-green" wx:for="{{jd.hit}}" wx:key="*this">{{item}}</text>
+            <view class="t-footnote c-tertiary" wx:if="{{!jd.hit.length}}">一个都没命中，先看看下面缺了什么</view>
+            <view class="t-footnote c-tertiary" wx:elif="{{hitRest}}">另有 {{hitRest}} 个次要关键词已命中</view>
+          </view>
+        </view>
+
+        <view class="group">
+          <view class="group-title">⚠️ 缺失关键词（{{jd.miss.length + missRest}}）</view>
+          <view class="card" style="padding:24rpx 20rpx 12rpx">
+            <text class="chip chip-orange" wx:for="{{jd.miss}}" wx:key="*this">{{item}}</text>
+            <view class="t-footnote c-tertiary" wx:if="{{missRest}}">还有 {{missRest}} 个次要关键词未命中</view>
+          </view>
+          <view class="btn btn-tint" style="margin-top:20rpx" bindtap="fillMissing" wx:if="{{jd.miss.length}}">
+            一键补进「岗位关键词」技能组
+          </view>
+          <view class="group-foot">只补你真实会的词 —— 面试会被追问，写上去就得答得上来。</view>
+        </view>
+      </block>
+
+      <view class="empty" wx:if="{{!jd}}">
+        <view class="empty-ic">📡</view>
+        <view class="empty-tx">粘贴一段 JD，看看你和这个岗位的差距</view>
+      </view>
+    </block>
+
+    <!-- ============ ATS 体检 ============ -->
+    <block wx:if="{{tab === 'ats'}}">
+      <view class="group">
+        <view class="card score-card">
+          <ring percent="{{ats.score}}" size="{{220}}" stroke="{{18}}" color="{{atsColor}}"
+            label="{{ats.score}}" sub="机筛分" />
+          <view class="score-tx">
+            <view class="t-title-3">{{ats.score >= 85 ? '可以放心投了' : ats.score >= 70 ? '基本合格' : '建议再改改'}}</view>
+            <view class="t-footnote c-secondary" style="margin-top:10rpx">
+              {{ats.words}} 字 · {{ats.bullets}} 条经历描述
+            </view>
+          </view>
+        </view>
+        <view class="group-foot">ATS 是企业的简历筛选系统。每一项的权重按照真实筛规则设置。</view>
+      </view>
+
+      <view class="group">
+        <view class="group-title">{{ats.checks.length}} 项体检明细</view>
+        <view class="card">
+          <view class="check" wx:for="{{ats.checks}}" wx:key="key">
+            <view class="check-ic {{item.pass ? 'pass' : 'fail'}}">{{item.pass ? '✓' : '!'}}</view>
+            <view class="check-body">
+              <view class="check-title">{{item.title}}</view>
+              <view class="check-tip" wx:if="{{!item.pass}}">{{item.tip}}</view>
+            </view>
+            <view class="check-w">{{item.weight}}</view>
+          </view>
+        </view>
+        <view class="btn btn-primary" style="margin-top:24rpx" bindtap="goEdit">去修改简历</view>
+      </view>
+    </block>
+
+    <!-- ============ 面试官模拟 ============ -->
+    <block wx:if="{{tab === 'interview'}}">
+      <view class="group">
+        <view class="group-title">根据你的项目生成的追问</view>
+        <view class="card">
+          <view class="q-item {{openQ === index ? 'open' : ''}}"
+            wx:for="{{questions}}" wx:key="idx" data-i="{{index}}" bindtap="tapQ">
+            <view class="q-head">
+              <view class="q-idx">{{index + 1}}</view>
+              <view class="q-text">{{item.q}}</view>
+              <view class="q-arrow">{{openQ === index ? '−' : '+'}}</view>
+            </view>
+            <view class="q-more" wx:if="{{openQ === index}}">
+              <view class="q-point-label">考察点</view>
+              <view class="q-point">{{item.point}}</view>
+              <view class="q-src" wx:if="{{item.text}}">来自：{{item.from}} · 「{{item.text}}」</view>
+            </view>
+          </view>
+        </view>
+        <view class="group-foot">前面几条是从你的经历里挑出来的「容易被追打」的点，后面是通用题。</view>
+      </view>
+    </block>
+
+    <!-- ============ STAR 改写 ============ -->
+    <block wx:if="{{tab === 'polish'}}">
+      <view class="group">
+        <view class="group-title">选一条经历，给它升个级</view>
+        <view class="card">
+          <view class="bl {{curBullet === index ? 'on' : ''}}" wx:for="{{bullets}}" wx:key="idx"
+            data-i="{{index}}" bindtap="pickBullet">
+            <view class="bl-host">{{item.host}}</view>
+            <view class="bl-text">{{item.text}}</view>
+          </view>
+          <view class="empty" wx:if="{{!bullets.length}}">
+            <view class="empty-tx">还没有写经历描述，先去编辑器写几条</view>
+          </view>
+        </view>
+      </view>
+
+      <block wx:if="{{rewrite}}">
+        <view class="group">
+          <view class="group-title">✳︎ 原文</view>
+          <view class="card"><view class="orig">{{selected.text}}</view></view>
+        </view>
+
+        <view class="group" wx:if="{{rewrite.notes.length}}">
+          <view class="group-title">诊断</view>
+          <view class="card">
+            <view class="note" wx:for="{{rewrite.notes}}" wx:key="*this">
+              <view class="note-dot"></view><view class="note-tx">{{item}}</view>
+            </view>
+          </view>
+        </view>
+
+        <view class="group">
+          <view class="group-title">推荐改写</view>
+          <view class="card">
+            <view class="cand" wx:for="{{rewrite.better}}" wx:key="tag">
+              <view class="cand-tag">{{item.tag}}</view>
+              <view class="cand-text">{{item.text}}</view>
+              <view class="btn btn-tint btn-sm" data-t="{{item.text}}" bindtap="adopt">采纳这条</view>
+            </view>
+          </view>
+          <view class="group-foot">改写是模板化建议，请把里面的 X 换成你的真实数字。</view>
+        </view>
+      </block>
+    </block>
+
+    <!-- ============ AI 深度分析（真实大模型） ============ -->
+    <block wx:if="{{tab === 'ai'}}">
+      <!-- 未配置 -->
+      <view class="group" wx:if="{{!aiConfigured}}">
+        <view class="card ai-setup">
+          <view class="ai-setup-ic">🧠</view>
+          <view class="t-title-3">接入你的大模型</view>
+          <view class="t-footnote c-secondary" style="margin-top:10rpx; line-height:1.6">
+            填一个 API Key，就能用真正的 AI 做深度分析：JD 逐条比对、经历改写、模拟面试、自我介绍。
+            Key 只存在本机，请求直接发往厂商。
+          </view>
+          <view class="btn btn-primary" style="margin-top:28rpx" bindtap="openAISettings">去配置 AI 服务商</view>
+        </view>
+        <view class="group-foot">
+          支持 DeepSeek / OpenAI / 通义千问 / 豆包 / Kimi，以及任何兼容 OpenAI 协议的自定义服务。
+        </view>
+      </view>
+
+      <block wx:else>
+        <!-- 当前模型 -->
+        <view class="group">
+          <view class="card st-line">
+            <view class="st-dot"></view>
+            <view class="st-body"><view class="st-title">{{aiInfo}}</view></view>
+            <view class="btn btn-tint btn-sm" bindtap="openAISettings">切换</view>
+          </view>
+        </view>
+
+        <!-- 任务选择 -->
+        <view class="group">
+          <view class="group-title">想让它做什么</view>
+          <view class="task-grid">
+            <view class="task {{curTask === item.key ? 'on' : ''}}" wx:for="{{tasks}}" wx:for-item="t" wx:key="key"
+              data-k="{{t.key}}" bindtap="pickTask">
+              <view class="task-ic">{{t.emoji}}</view>
+              <view class="task-n">{{t.name}}</view>
+              <view class="task-d">{{t.desc}}</view>
+            </view>
+          </view>
+        </view>
+
+        <!-- JD 输入 -->
+        <view class="group">
+          <view class="group-title">岗位 JD（可选，填了分析更准）</view>
+          <view class="card">
+            <view class="field-multi">
+              <textarea class="multi-area" style="height:200rpx" maxlength="-1" value="{{aiJd}}"
+                placeholder="把招聘要求贴进来，AI 会逐条对照你的简历，指出硬性缺口"
+                placeholder-class="field-ph" bindinput="onAiJdInput" />
+            </view>
+          </view>
+        </view>
+
+        <!-- 开始 -->
+        <view class="group">
+          <view class="btn btn-primary {{aiLoading ? 'btn-disabled' : ''}}" bindtap="runAI">
+            {{aiLoading ? 'AI 正在思考…' : '开始深度分析'}}
+          </view>
+          <view class="group-foot">简历内容会随请求一起发给所选厂商，请确认内容适合外发。</view>
+        </view>
+
+        <!-- 错误 -->
+        <view class="group" wx:if="{{aiErr}}">
+          <view class="card ai-err">
+            <view class="ai-err-t">{{aiErr}}</view>
+            <view class="btn btn-gray btn-sm" style="margin-top:20rpx" bindtap="openAISettings">检查 AI 配置</view>
+          </view>
+        </view>
+
+        <!-- 结果 -->
+        <view class="group" wx:if="{{aiText}}">
+          <view class="group-title">
+            AI 回答
+            <text class="ai-act" bindtap="copyAI">复制</text>
+            <text class="ai-act" bindtap="clearAI">清空</text>
+          </view>
+          <view class="card ai-result">
+            <rich-text nodes="{{aiHtml}}"></rich-text>
+          </view>
+        </view>
+      </block>
+    </block>
+
+    <view class="safe-bottom"></view>
+  </view>
+</view>

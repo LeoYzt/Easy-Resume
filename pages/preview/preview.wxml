@@ -1,0 +1,174 @@
+<view class="page">
+  <navbar show-back="{{true}}" title="预览与导出" />
+
+  <!-- 正在查看其他版本 -->
+  <view class="guest" wx:if="{{isGuest}}">
+    <view class="guest-ic">
+      <view class="guest-eye"></view>
+    </view>
+    <view class="guest-body">
+      <view class="guest-title">正在查看「{{viewName}}」</view>
+      <view class="guest-sub">这是只读预览，改动不会影响你正在编辑的那一版</view>
+    </view>
+    <view class="guest-btn" bindtap="setAsCurrent" hover-class="guest-btn-hover">设为当前</view>
+  </view>
+
+  <!-- 自定义大标题 -->
+  <view class="pv-head">
+    <view class="navbar-lg" style="padding-top:6rpx; padding-bottom:0">
+      <view class="eyebrow">{{tplMeta.tag}} · {{words}} 字 · 约 {{pages}} 页</view>
+      <view class="t-large-title">预览</view>
+    </view>
+    <scroll-view scroll-x enhanced show-scrollbar="{{false}}" class="tpl-scroll">
+      <view class="seg-scroll">
+        <view class="seg-item {{template === item.key ? 'on' : ''}}"
+          wx:for="{{tplList}}" wx:for-item="t" wx:key="key" data-k="{{t.key}}" bindtap="pickTpl">{{t.name}}</view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class="pv-body">
+    <!-- A4 纸 -->
+    <view class="paper-wrap">
+      <view class="paper tpl-{{template}} {{density}}" style="--acc:{{accent}}">
+
+        <!-- 头部 -->
+        <view class="p-head">
+          <view class="p-name">{{vm.basic.name || '你的姓名'}}</view>
+          <view class="p-title">{{vm.basic.title || '求职意向'}}</view>
+          <view class="p-status" wx:if="{{vm.status}}">{{vm.status}}</view>
+          <view class="p-contact">
+            <text class="p-c" wx:for="{{vm.contacts}}" wx:for-item="ct" wx:key="t">{{ct.t}}</text>
+          </view>
+        </view>
+
+        <!-- 简介 -->
+        <view class="p-sec" wx:if="{{vm.summary}}">
+          <view class="p-sec-t">个人简介</view>
+          <view class="p-summary">{{vm.summary}}</view>
+        </view>
+
+        <!-- 按 sections 顺序渲染各模块 -->
+        <block wx:for="{{vm.sections}}" wx:for-item="sec" wx:key="key">
+          <view class="p-sec">
+
+            <!-- 专业技能 -->
+            <block wx:if="{{sec.key === 'skill'}}">
+              <view class="p-sec-t">{{sec.title}}</view>
+              <view class="p-skill" wx:for="{{sec.items}}" wx:for-item="g" wx:key="id">
+                <view class="p-skill-k">{{g.name}}</view>
+                <view class="p-skill-v">
+                  <text class="p-tag" wx:for="{{g.items}}" wx:for-item="tg" wx:key="*this">{{tg}}</text>
+                </view>
+              </view>
+            </block>
+
+            <!-- 工作经历 -->
+            <block wx:elif="{{sec.key === 'work'}}">
+              <view class="p-sec-t">{{sec.title}}</view>
+              <view class="p-item" wx:for="{{sec.items}}" wx:for-item="it" wx:key="id">
+                <view class="p-row">
+                  <view class="p-row-l">{{it.company}}<text class="p-role" wx:if="{{it.role}}"> · {{it.role}}</text></view>
+                  <view class="p-row-r">{{it.start}} – {{it.end}}</view>
+                </view>
+                <view class="p-row-sub" wx:if="{{it.city || it.dept}}">{{it.city}}<block wx:if="{{it.dept}}"> · {{it.dept}}</block></view>
+                <view class="p-bullet" wx:for="{{it.bullets}}" wx:for-item="bl" wx:key="*this">{{bl}}</view>
+              </view>
+            </block>
+
+            <!-- 项目经历 -->
+            <block wx:elif="{{sec.key === 'project'}}">
+              <view class="p-sec-t">{{sec.title}}</view>
+              <view class="p-item" wx:for="{{sec.items}}" wx:for-item="it" wx:key="id">
+                <view class="p-row">
+                  <view class="p-row-l">{{it.name}}<text class="p-role" wx:if="{{it.role}}"> · {{it.role}}</text></view>
+                  <view class="p-row-r">{{it.start}} – {{it.end}}</view>
+                </view>
+                <view class="p-row-sub" wx:if="{{it.tech}}">{{it.tech}}</view>
+                <view class="p-row-sub" wx:if="{{it.link}}">{{it.link}}</view>
+                <view class="p-bullet" wx:for="{{it.bullets}}" wx:for-item="bl" wx:key="*this">{{bl}}</view>
+              </view>
+            </block>
+
+            <!-- 教育经历 -->
+            <block wx:elif="{{sec.key === 'education'}}">
+              <view class="p-sec-t">{{sec.title}}</view>
+              <view class="p-item" wx:for="{{sec.items}}" wx:for-item="it" wx:key="id">
+                <view class="p-row">
+                  <view class="p-row-l">{{it.school}}</view>
+                  <view class="p-row-r">{{it.start}} – {{it.end}}</view>
+                </view>
+                <view class="p-row-sub">{{it.major}}<block wx:if="{{it.degree}}"> · {{it.degree}}</block><block wx:if="{{it.gpa}}"> · GPA {{it.gpa}}</block></view>
+                <view class="p-row-sub" wx:if="{{it.honor}}">{{it.honor}}</view>
+                <view class="p-bullet" wx:for="{{it.bullets}}" wx:for-item="bl" wx:key="*this">{{bl}}</view>
+              </view>
+            </block>
+
+            <!-- 证书与荣誉 -->
+            <block wx:else>
+              <view class="p-sec-t">{{sec.title}}</view>
+              <view class="p-item" wx:for="{{sec.items}}" wx:for-item="it" wx:key="id">
+                <view class="p-row">
+                  <view class="p-row-l">{{it.name}}</view>
+                  <view class="p-row-r">{{it.date}}</view>
+                </view>
+                <view class="p-row-sub">{{it.issuer}}<block wx:if="{{it.desc}}"> · {{it.desc}}</block></view>
+              </view>
+            </block>
+          </view>
+        </block>
+
+        <view class="p-foot">Magic Resume · 本地生成，数据不上传</view>
+      </view>
+    </view>
+
+    <!-- 分页提示 -->
+    <view class="pages-hint {{pages > 1 ? 'warn' : ''}}">
+      <text>{{pages > 1 ? '⚠️ 内容约 ' + pages + ' 页，建议删减到一页' : '✓ 内容量刚好控制在一页'}}</text>
+    </view>
+
+    <!-- 导出设置 -->
+    <view class="group">
+      <view class="group-title">导出设置</view>
+      <view class="card">
+        <view class="row">
+          <view class="row-icon" style="background:#FF3B30">隐</view>
+          <view class="row-body">
+            <view class="row-title">隐私脱敏</view>
+            <view class="row-sub">手机号、邮箱打码后再导出</view>
+          </view>
+          <view class="switch {{privacy ? 'on' : ''}}" bindtap="togglePrivacy"><view class="switch-knob"></view></view>
+        </view>
+        <view class="row">
+          <view class="row-icon" style="background:#5856D6">密度</view>
+          <view class="row-body"><view class="row-title">排版密度</view></view>
+          <view class="seg">
+            <view class="seg-item {{density === item.key ? 'on' : ''}}" wx:for="{{densityList}}" wx:for-item="d" wx:key="key"
+              data-k="{{d.key}}" bindtap="pickDensity">{{d.name}}</view>
+          </view>
+        </view>
+        <view class="row">
+          <view class="row-icon" style="background:#FF9500">印</view>
+          <view class="row-body"><view class="row-title">防泄漏水印</view></view>
+          <input class="row-value" style="flex:1;text-align:right" placeholder="投 XX 公司专用" placeholder-class="field-ph"
+            value="{{watermark}}" bindinput="editWatermark" />
+        </view>
+      </view>
+      <view class="group-foot">水印会以浅色平铺在整张图上，用于追踪简历流向。</view>
+    </view>
+
+    <view class="pv-space"></view>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="pv-bar">
+    <view class="pv-bar-in">
+      <view class="pv-btn ghost" bindtap="goEdit">继续编辑</view>
+      <view class="pv-btn ghost" bindtap="copyText">复制文本</view>
+      <view class="pv-btn main" bindtap="doExport">导出长图</view>
+    </view>
+  </view>
+
+  <!-- 离屏画布 -->
+  <canvas type="2d" id="cv" class="off-canvas"></canvas>
+</view>
